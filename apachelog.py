@@ -54,7 +54,7 @@ def write_format(w, outfile):
             outfile.write(x + " ")
         outfile.write("\n")
 
-
+        # test test
 def directory_check():
     list1 = os.listdir(path='C:/Users/Nick/Dropbox/nick/School/Scripts Log files/Script')
     list2 = []
