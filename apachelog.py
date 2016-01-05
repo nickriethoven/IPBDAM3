@@ -65,6 +65,7 @@ def directory_check():
 
 
 def process_files(list):
+    y = 0;
     for x in list:
         f = open(x, 'r')
         outfile = open(f.name + "_clean.txt", 'w')
@@ -72,7 +73,9 @@ def process_files(list):
             # woorden opsplitsen
             words = line.split()
             # wegschrijven van de woorden
+            print("Opschonen Apache Log File: " + str(y))
             write_format(words, outfile)
+            y += 1
 
 
 process_files(directory_check())
