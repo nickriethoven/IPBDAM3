@@ -12,7 +12,7 @@ def format_element(w):
     # Opmaak van bepaalde blokken
     # [30/Nov/2014:06:25:46 +0100] -> 30/Nov/2014,06:25:46
     w[3] = w[3].replace('[', "", 1)
-    w[3] = w[3].replace(':', "','", 1)
+    w[3] = w[3].replace(':', ",", 1)
     w[4] = w[4].replace(']', "", 1)
 
     # GET /whole_genome/view/F2 naar -> GET,whole_genome view F2
@@ -56,7 +56,7 @@ def write_format(w, outfile):
 
         # test test
 def directory_check():
-    list1 = os.listdir(path='C:/Users/Nick/Dropbox/nick/School/Scripts Log files/Script')
+    list1 = os.listdir(path='C:\Users\Nick\Dropbox\nick\School\Scripts Log files\Script\Dirty\Apache Log')
     list2 = []
     for x in list1:
         if x.__contains__("apache_access_log") and not x.__contains__("_clean"):
