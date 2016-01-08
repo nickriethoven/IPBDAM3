@@ -12,7 +12,9 @@ def format_element(w):
     # Opmaak van bepaalde blokken
     # [30/Nov/2014:06:25:46 +0100] -> 30/Nov/2014,06:25:46
     w[3] = w[3].replace('[', "", 1)
-    w[3] = w[3].replace(':', ",", 1)
+    # 30/Nov/2014:06:25:46 -> 30/Nov/2014,06:25:46
+    w[3] = w[3].replace(":", ",", 1)
+
     # Date van 30/Nov/2014 -> 30/11/2014
     if w[3].__contains__("Jan"):
         w[3] = w[3].replace("Jan", "01", 1)
@@ -40,11 +42,14 @@ def format_element(w):
         w[3] = w[3].replace("Nov", "11", 1)
     elif w[3].__contains__("Dec"):
         w[3] = w[3].replace("Dec", "12", 1)
+    # +0100] -> +0100
     w[4] = w[4].replace(']', "", 1)
 
     # GET /whole_genome/view/F2 naar -> GET,whole_genome view F2
     w[6] = w[6].replace('/', "", 1)
     w[6] = w[6].replace('/', " ")
+    w[6] = w[6].replace(',', " ")
+    # returnen van de opgeschoonde lijst
     return w
 
 
@@ -53,7 +58,7 @@ def format_element(w):
 def write_format_standard(w, outfile):
     # IP
     outfile.write(w[0] + ',')
-    # Date + timezone
+    # 30/11/2014 + +0100
     outfile.write(w[3] + ',' + w[4] + ',')
     # http request type "GET"/"Post"; request /shared/view/hgdf12; HTTP/1.1
     outfile.write(w[5] + ',' + w[6] + ',' + w[7] + ',')
@@ -68,10 +73,18 @@ def write_format(w, outfile):
     # output is: 66.249.64.4,30/Nov/2014,06:25:46,+0100,GET,whole_genome view F2,HTTP/1.1,200,293498,Mozilla/5.0
     format_element(w)
     # als de lengte onder de 12 is dan voldoet de lijst aan de standaard opmaak
-    if len(w) <= 12:
+    if len(w) == 12:
         write_format_standard(w, outfile)
         outfile.write("\n")
-    else:
+    # Wanneer de lijst kleiner is dan 12 woorden
+    elif len(w) < 12:
+        write_format_standard(w, outfile)
+        # loop die net zolang door met seperators(',') toevoegen tot de lengte 12 is
+        while len(w) < 12:
+            w.append(",")
+        outfile.write("\n")
+    # als de lengte groter is dan 12 loopt de code tot er niks meer in de lijst staat
+    elif len(w) > 12:
         write_format_standard(w, outfile)
         # zodra de lengte langer is dan de stadaard
         # dan begint de loop waar de standaard opmaak eindigt, net zo lang als de lijst lang is.
@@ -83,7 +96,8 @@ def write_format(w, outfile):
             outfile.write(x + " ")
         outfile.write("\n")
 
-        # test test
+
+# checkt een directory op "apache_access_log" maar zonder "_clean"
 def directory_check():
     list1 = os.listdir(path='C:/Users/Nick/Dropbox/nick/School/Scripts Log files/Script')
     list2 = []
@@ -93,11 +107,16 @@ def directory_check():
     return list2
 
 
+# processed de gefilterde lijst van logs
 def process_files(list):
+
     y = 0;
+    # gaat de hele lijst door en verwerkt de logs stuk voor stuk
     for x in list:
         f = open(x, 'r')
+        # open een outfile
         outfile = open(f.name + "_clean.txt", 'w')
+        # eerste regel van elk bestand, nodig voor analyse
         outfile.write("IP,Date,Time,Timezone,HTTP Request,Doel Locatie,Protocol,Response,Package size,Browser,Source")
         outfile.write("\n")
         print("Opschonen Apache Log File: " + str(y))
