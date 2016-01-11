@@ -151,4 +151,3 @@ def process_files(list):
 
 
 process_files(directory_check())
-print(lonlist)
