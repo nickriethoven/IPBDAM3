@@ -1,7 +1,9 @@
 import os
 
+lonlist = []
 
-def format_element(w):
+
+def format_element(w, outfile):
     # counter voor de replacement van aanhalingstekens
     count = 0
     for x in w:
@@ -49,7 +51,24 @@ def format_element(w):
     w[6] = w[6].replace('/', "", 1)
     w[6] = w[6].replace('/', " ")
     w[6] = w[6].replace(',', " ")
-    # returnen van de opgeschoonde lijst
+    w6list = w[6].split()
+    string = ""
+    if len(w6list) >= 3:
+        string = string + w6list[0] + "," + w6list[1] + "," + w6list[-1] + ","
+    elif len(w6list) < 3:
+        if len(w6list) == 2:
+            string = string + w6list[0] + ", " + w6list[1] + ",,"
+        if len(w6list) == 1:
+            string = string + w6list[0] + ",,,"
+        if len(w6list) == 0:
+            string = ",,,"
+    w[6] = string
+
+    # if lonlist.__contains__(len(w6list)):
+    #     pass
+    # else:
+    #     lonlist.append(len(w6list))
+
     return w
 
 
@@ -61,7 +80,7 @@ def write_format_standard(w, outfile):
     # 30/11/2014 + +0100
     outfile.write(w[3] + ',' + w[4] + ',')
     # http request type "GET"/"Post"; request /shared/view/hgdf12; HTTP/1.1
-    outfile.write(w[5] + ',' + w[6] + ',' + w[7] + ',')
+    outfile.write(w[5] + ',' + w[6] + w[7] + ',')
     # HTTP Answer + HTTP answer size
     outfile.write(w[8] + ',' + w[9] + ',')
     # browser en versie
@@ -71,7 +90,7 @@ def write_format_standard(w, outfile):
 def write_format(w, outfile):
     # input is: 66.249.64.4 - - [30/Nov/2014:06:25:46 +0100] "GET /whole_genome/view/F2 HTTP/1.1" 200 293498 "-" "Mozilla/5.0
     # output is: 66.249.64.4,30/Nov/2014,06:25:46,+0100,GET,whole_genome view F2,HTTP/1.1,200,293498,Mozilla/5.0
-    format_element(w)
+    format_element(w, outfile)
     # als de lengte onder de 12 is dan voldoet de lijst aan de standaard opmaak
     if len(w) == 12:
         write_format_standard(w, outfile)
@@ -102,6 +121,7 @@ def directory_check():
     list1 = os.listdir(path='C:/Users/Nick/Dropbox/nick/School/Scripts Log files/Script')
     list2 = []
     for x in list1:
+        # if x.__contains__("testfile") and not x.__contains__("_clean"):
         if x.__contains__("apache_access_log") and not x.__contains__("_clean"):
             list2.append(x)
     return list2
@@ -117,7 +137,8 @@ def process_files(list):
         # open een outfile
         outfile = open(f.name + "_clean.txt", 'w')
         # eerste regel van elk bestand, nodig voor analyse
-        outfile.write("IP,Date,Time,Timezone,HTTP Request,Doel Locatie,Protocol,Response,Package size,Browser,Source")
+        outfile.write(
+            "IP,Date,Time,Timezone,HTTP Request,Doel1,Doel2,Doel3,Locatie,Protocol,Response,Package size,Browser,Source")
         outfile.write("\n")
         print("Opschonen Apache Log File: " + str(y))
         y += 1
@@ -130,3 +151,4 @@ def process_files(list):
 
 
 process_files(directory_check())
+print(lonlist)
