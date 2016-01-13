@@ -1,9 +1,8 @@
 import os
-
 lonlist = []
 
 
-def format_element(w, outfile):
+def format_element(w):
     # counter voor de replacement van aanhalingstekens
     count = 0
     for x in w:
@@ -90,7 +89,7 @@ def write_format_standard(w, outfile):
 def write_format(w, outfile):
     # input is: 66.249.64.4 - - [30/Nov/2014:06:25:46 +0100] "GET /whole_genome/view/F2 HTTP/1.1" 200 293498 "-" "Mozilla/5.0
     # output is: 66.249.64.4,30/Nov/2014,06:25:46,+0100,GET,whole_genome view F2,HTTP/1.1,200,293498,Mozilla/5.0
-    format_element(w, outfile)
+    format_element(w)
     # als de lengte onder de 12 is dan voldoet de lijst aan de standaard opmaak
     if len(w) == 12:
         write_format_standard(w, outfile)
@@ -118,7 +117,7 @@ def write_format(w, outfile):
 
 # checkt een directory op "apache_access_log" maar zonder "_clean"
 def directory_check():
-    list1 = os.listdir(path='C:/Users/Nick/Dropbox/nick/School/Scripts Log files/Script')
+    list1 = os.listdir(path='C:/Users/Nick/Dropbox/nick/School/Scripts Log files/Script/')
     list2 = []
     for x in list1:
         # if x.__contains__("testfile") and not x.__contains__("_clean"):
@@ -135,7 +134,7 @@ def process_files(list):
     for x in list:
         f = open(x, 'r')
         # open een outfile
-        outfile = open(f.name + "_clean.txt", 'w')
+        outfile = open(f.name + '_clean.txt', 'w', encoding='utf-8')
         # eerste regel van elk bestand, nodig voor analyse
         outfile.write(
             "IP,Date,Time,Timezone,HTTP Request,Doel1,Doel2,Doel3,Locatie,Protocol,Response,Package size,Browser,Source")
