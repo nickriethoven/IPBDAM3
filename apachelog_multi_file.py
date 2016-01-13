@@ -137,7 +137,7 @@ def process_files(list):
         outfile = open(f.name + '_clean.txt', 'w', encoding='utf-8')
         # eerste regel van elk bestand, nodig voor analyse
         outfile.write(
-            "IP,Date,Time,Timezone,HTTP Request,Doel1,Doel2,Doel3,Locatie,Protocol,Response,Package size,Browser,Source")
+            "IP,Date,Time,Timezone,HTTP Request,Doel1,Doel2,Doel3,Protocol,Response,Package size,Browser,Source")
         outfile.write("\n")
         print("Opschonen Apache Log File: " + str(y))
         y += 1
