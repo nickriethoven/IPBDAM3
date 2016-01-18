@@ -29,9 +29,7 @@ def format_element(w):
     elif w[3].__contains__("Apr"):
         w[3] = w[3].replace("Apr", "04", 1)
     elif w[3].__contains__("May"):
-        w[3] = w[3].replace("May", "04", 1)
-    elif w[3].__contains__("Jun"):
-        w[3] = w[3].replace("Jun", "05", 1)
+        w[3] = w[3].replace("May", "05", 1)
     elif w[3].__contains__("Jun"):
         w[3] = w[3].replace("Jun", "06", 1)
     elif w[3].__contains__("Jul"):
@@ -46,6 +44,7 @@ def format_element(w):
         w[3] = w[3].replace("Nov", "11", 1)
     elif w[3].__contains__("Dec"):
         w[3] = w[3].replace("Dec", "12", 1)
+
     # +0100] -> +0100
     w[4] = w[4].replace(']', "", 1)
     # GET /whole_genome/view/F2 naar -> GET,whole_genome view F2
@@ -145,7 +144,7 @@ def process_files(list):
 
         for line in f:
             if line.__contains__('"Marked\"|=\"Public\"') or line.__contains__("var_status==") or line.__contains__(
-                    "eq(1).html"):
+                    "eq(1).html") or line.__contains__("AnD "):
                 pass
             else:
                 # woorden opsplitsen
