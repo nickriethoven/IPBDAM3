@@ -15,7 +15,8 @@ def process_files(list):
     for x in list:
         f = open(x, 'r')
         outfile = open(f.name + "_clean.txt", 'w')
-        outfile.write("Date×Time×Database×Query_time×Lock_time×Rows_sent×Rows_examined×Timestamp×Query")
+        # outfile.write("Date×Time×Database×Locatie×Query_time×Lock_time×Rows_sent×Rows_examined×Timestamp×Query")
+        # outfile.write("\n")
         print("Opschonen File: " + str(y))
         opschonen(striplines(f), outfile)
         y += 1
